@@ -1,8 +1,11 @@
 #!/usr/bin/tclsh
+#
+# TkCounter XQuery version
+#
 
 package require Tcl 8.6
 package require Tk
-package require tdbc::sqlite3
+package require xqilla
 
 # Setup Window size and title
 wm geometry . 550x120+20+10
@@ -24,7 +27,7 @@ pack .menubar.file -side left
 text .t -background white -font {"Noto Sans" -64}
 pack .t -fill both -expand 1
 
-tdbc::sqlite3::connection create db :memory:
+xqilla db
 
 after 500 Update
 
@@ -34,13 +37,12 @@ proc Exit {} {
 }
 
 proc Update {} {
-    set statement [db prepare {SELECT CAST ((JulianDay('2019-06-14') - JulianDay('now')) as Integer) as d}]	
     set diff 0
+    set exprs [db prepare  {days-from-duration(xs:dateTime('2019-06-14T00:00:00') - current-dateTime())}]
+    set result [$exprs execute]
 
-    $statement foreach row {
-        if {[catch {set diff [dict get $row d]}]} {
-            set diff 0
-        }
+    while {[$result next]} {
+        set diff [$result string_value]
     }
 
     if {$diff < 0} {
@@ -56,7 +58,8 @@ proc Update {} {
     }
 
     .t configure -state disabled
-    $statement close
+    $result close
+    $exprs close
 
     after 10000 Update
 }
