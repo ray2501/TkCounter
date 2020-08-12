@@ -34,7 +34,7 @@ proc Exit {} {
 }
 
 proc Update {} {
-    set statement [db prepare {SELECT CAST ((JulianDay('2019-06-14') - JulianDay('now')) as Integer) as d}]	
+    set statement [db prepare {SELECT CAST ((JulianDay('2020-08-21') - JulianDay('now')) as Integer) as d}]
     set diff 0
 
     $statement foreach row {

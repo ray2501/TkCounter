@@ -38,7 +38,7 @@ proc Exit {} {
 
 proc Update {} {
     set diff 0
-    set exprs [db prepare  {days-from-duration(xs:dateTime('2019-06-14T00:00:00') - current-dateTime())}]
+    set exprs [db prepare  {days-from-duration(xs:dateTime('2020-08-21T18:00:00') - current-dateTime())}]
     set result [$exprs execute]
 
     while {[$result next]} {

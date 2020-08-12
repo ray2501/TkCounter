@@ -33,7 +33,7 @@ proc Exit {} {
 }
 
 proc Update {} {
-    set diff [expr round(([clock scan 2019-06-14] - [clock seconds]) / double(60*60*24))]
+    set diff [expr round(([clock scan 2020-08-21] - [clock seconds]) / double(60*60*24))]
 
     if {$diff < 0} {
         set diff 0
